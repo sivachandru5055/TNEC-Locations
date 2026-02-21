@@ -1,0 +1,83 @@
+<div class="app-container">
+  <header>
+    <a routerLink="/" class="logo">
+      <img src="logo.png" alt="TNECL Logo" class="logo-img">
+      TNECL
+    </a>
+    <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav [class.active]="isMenuOpen">
+      <a routerLink="/dashboard" routerLinkActive="active" (click)="closeMenu()">Dashboard</a>
+      <a routerLink="/map" routerLinkActive="active" (click)="closeMenu()">Map View</a>
+      <a routerLink="/list" routerLinkActive="active" (click)="closeMenu()">College List</a>
+
+      @if (!authService.isLoggedIn()) {
+      <a routerLink="/login" class="btn btn-secondary" (click)="closeMenu()">Login</a>
+      <a routerLink="/register" class="btn btn-primary" (click)="closeMenu()">Join Now</a>
+      } @else {
+      <button (click)="logout(); closeMenu()" class="btn btn-secondary">Logout</button>
+      }
+    </nav>
+  </header>
+
+  <main>
+    <router-outlet></router-outlet>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-grid">
+          <div class="footer-section">
+            <h3 class="footer-title">TNECL</h3>
+            <p class="footer-description">
+              The official portal for discovering and navigating engineering institutions across Tamil Nadu. Dedicated
+              to
+              empowering students with accurate, up-to-date academic data.
+            </p>
+            <div class="social-links mt-4">
+              <a href="#" class="social-icon">𝕏</a>
+              <a href="#" class="social-icon">in</a>
+            </div>
+          </div>
+
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+              <li><a routerLink="/dashboard">Dashboard</a></li>
+              <li><a routerLink="/List">Institution List</a></li>
+              <li><a routerLink="/map">Interactive Map</a></li>
+              <li><a routerLink="/login">Member Portal</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h4>Resources</h4>
+            <ul class="footer-links">
+              <li><a href="https://tneaonline.org" target="_blank">TNEA Official</a></li>
+              <li><a href="https://www.annauniv.edu" target="_blank">Anna University</a></li>
+              <li><a href="#">Counseling Guide</a></li>
+              <li><a href="#">Admission FAQs</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-section">
+            <h4>Contact Us</h4>
+            <div class="contact-info">
+              <!-- <p>📍 Higher Education Dept, Chennai</p> -->
+              <p><i class="fab fa-gmail"></i> mr.palani95@gmail.com</p>
+              <p><i class="fa fa-whatsapp"></i>+91 9087152252</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2026 Tamil Nadu Engineering College Locator. All rights reserved.</p>
+          <p class="footer-tagline">Building the future of navigation in education. Developed by Mr Black list</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+</div>

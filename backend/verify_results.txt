@@ -1,0 +1,24 @@
+[1101] Aalim Muhammed Salegh College of Engineering -> Muthapudupet, Avadi, Tamil Nadu 600055, India
+[1102] Aalim Muhammed Salegh Academy of Architecture -> Palavedu, Tamil Nadu 600072, India
+[1103] B K R College Of Engineering & Technology -> Thiruvallur
+[1104] Bhajarang Engineering College -> Tamil Nadu 602021, India
+[1105] Gojan School of Business And Technology -> Upparipalayam, Tamil Nadu 600052, India
+[1106] Indira Institute of Engineering & Technology -> Thiruvallur
+[1107] J N N Institute of Engineering -> Mettupalayam, Tamil Nadu, India
+[1108] Jaya Engineering College -> Tamil Nadu, India
+[1109] Jaya Suriya Engineering College -> Tamil Nadu 600055, India
+[1110] John Bosco Engineering College -> Tiruvallur, Tamil Nadu 602001, India
+
+Summary: 434 good, 44 bad (location = name), total 478
+
+Bad entries (first 10):
+  BAD: [5133] loc='Kanchipuram' name='University College of Engineering, Kanch'
+  BAD: [6224] loc='Salem' name='Salem College of Engineering & Technolog'
+  BAD: [6177] loc='Salem' name='Government College of Engineering - Sale'
+  BAD: [7111] loc='Coimbatore' name='Government College of Engineering - Coim'
+  BAD: [7112] loc='Coimbatore' name='Government College of Technology - Coimb'
+  BAD: [7140] loc='Pollachi' name='Pollachi Institute of Engineering & Tech'
+  BAD: [7177] loc='Coimbatore' name='Government College of Engineering - Coim'
+  BAD: [7178] loc='Karur' name='Government College of Engineering - Karu'
+  BAD: [7179] loc='Coimbatore' name='Government College of Technology - Coimb'
+  BAD: [7531] loc='Ariyalur' name='University College of Engineering, Ariya'

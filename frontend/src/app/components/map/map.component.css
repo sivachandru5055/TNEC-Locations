@@ -1,0 +1,40 @@
+/* Map View Container */
+.map-view-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+/* 
+   Wrapper to crop the Google My Maps header 
+   strategies: overflow hidden + negative margin on iframe 
+*/
+.map-embed-wrapper {
+    position: relative;
+    width: 100%;
+    height: 640px;
+    /* Fixed height for the map view */
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    background: #f0f0f0;
+    /* specific background while loading */
+}
+
+.map-embed-iframe {
+    width: 100%;
+    /* Add extra height to compensate for the cropped header */
+    height: calc(100% + 58px);
+    border: 0;
+    /* Pull the iframe up to hide the header bar (~58px usually) */
+    margin-top: -80px;
+    display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .map-embed-wrapper {
+        height: 500px;
+        border-radius: 12px;
+    }
+}

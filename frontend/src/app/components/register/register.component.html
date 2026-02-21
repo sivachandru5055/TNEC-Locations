@@ -1,0 +1,75 @@
+<div class="auth-container animate-fade-in">
+    <div class="auth-card">
+        <!-- Step 1: Registration Form -->
+        <div *ngIf="!showOtpForm">
+            <div class="auth-header">
+                <h2>Create Account</h2>
+                <p class="text-muted">Join the network of engineering excellence</p>
+            </div>
+
+            <form (submit)="onSubmit($event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" [(ngModel)]="name" placeholder="Your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email ID</label>
+                    <input type="email" name="email" [(ngModel)]="email" placeholder="Email ID" required>
+                </div>
+                <div class="form-group">
+                    <label>Create Password</label>
+                    <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
+                </div>
+
+                <div *ngIf="errorMessage" class="auth-message error">
+                    ⚠️ {{ errorMessage }}
+                </div>
+
+                <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+                    {{ isLoading ? 'Creating Account...' : 'Create Profile' }}
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a routerLink="/login">Sign in here</a></p>
+            </div>
+        </div>
+
+        <!-- Step 2: OTP Verification -->
+        <div *ngIf="showOtpForm">
+            <div class="auth-header">
+                <h2>✉️ Verify Your Email</h2>
+                <p class="text-muted">We sent a 6-digit OTP to <strong>{{ email }}</strong></p>
+            </div>
+
+            <div *ngIf="message" class="auth-message success">
+                ✅ {{ message }}
+            </div>
+
+            <form (submit)="onVerifyOtp($event)">
+                <div class="form-group">
+                    <label>Enter OTP</label>
+                    <input type="text" name="otp" [(ngModel)]="otp" placeholder="• • • • • •" maxlength="6" required>
+                </div>
+
+                <div *ngIf="errorMessage" class="auth-message error">
+                    ⚠️ {{ errorMessage }}
+                </div>
+
+                <button type="submit" class="btn btn-primary" [disabled]="isLoading || otp.length < 6">
+                    {{ isLoading ? 'Verifying...' : 'Verify OTP' }}
+                </button>
+            </form>
+
+            <div class="auth-resend">
+                <button (click)="onResendOtp()" class="resend-btn" [disabled]="resendCooldown > 0 || isLoading">
+                    {{ resendCooldown > 0 ? 'Resend OTP in ' + resendCooldown + 's' : 'Resend OTP' }}
+                </button>
+            </div>
+
+            <div class="auth-footer">
+                <p>Wrong email? <a routerLink="/register" (click)="showOtpForm = false">Go back</a></p>
+            </div>
+        </div>
+    </div>
+</div>

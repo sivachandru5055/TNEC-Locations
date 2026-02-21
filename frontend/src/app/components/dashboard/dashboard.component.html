@@ -1,0 +1,84 @@
+<div class="dashboard animate-fade-in">
+    <div class="hero-section text-center">
+        <img src="logo.png" alt="TNECL Logo" class="hero-logo">
+        <h1 class="hero-title">Discover Engineering Excellence in Tamil Nadu</h1>
+        <p class="hero-subtitle">Your comprehensive guide to 478 official engineering institutions in our Tamil Nadu.
+            Explore, map, and
+            find your
+            future.</p>
+
+        <div class="hero-actions mt-4">
+            <button class="btn btn-primary btn-lg" routerLink="/map">
+                <span class="btn-text">Explore Map</span>
+            </button>
+            <button class="btn btn-secondary btn-lg" routerLink="/list">
+                <span class="btn-text">Browse List</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">🎓</div>
+            <h3>{{ displayTotal }}</h3>
+            <p>Total Institutions</p>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🏢</div>
+            <h3>{{ displayPrivate }}</h3>
+            <p>Private Colleges</p>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🏛️</div>
+            <h3>{{ displayGovt }}</h3>
+            <p>Government Colleges</p>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🔗</div>
+            <h3>{{ displayAnna }}</h3>
+            <p>Anna Univ Affiliated</p>
+        </div>
+    </div>
+
+    <div class="info-grid mt-4">
+        <div class="glass-card">
+            <h3>Quick Information</h3>
+            <ul class="premium-list">
+                <li>
+                    <span class="list-icon">⭐</span>
+                    <div>
+                        <strong>Top Institutions</strong>
+                        <p>IIT Madras, NIT Trichy, VIT Vellore, CEG Anna University</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="list-icon">📝</span>
+                    <div>
+                        <strong>Entrance Exams</strong>
+                        <p>TNEA (Centralized), JEE Main, GATE, TANCET</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="list-icon">💰</span>
+                    <div>
+                        <strong>B.Tech Fee Range</strong>
+                        <p>INR 50k (Govt) to 3L+ (Private) per annum</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="glass-card admin-section" *ngIf="authService.isLoggedIn()">
+            <h3>Administrative Tools</h3>
+            <p class="text-muted">Keep the database synchronized with the latest official fee structures from TNEA.</p>
+            <div class="admin-actions mt-4">
+                <button class="btn btn-primary" (click)="syncFees()" [disabled]="syncMessage === 'Syncing...'">
+                    <span>Sync Official Data</span>
+                </button>
+            </div>
+            <div *ngIf="syncMessage" class="sync-status mt-4">
+                {{ syncMessage }}
+            </div>
+        </div>
+    </div>
+</div>

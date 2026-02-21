@@ -1,0 +1,165 @@
+<!-- Loading State -->
+<div class="auth-container animate-fade-in" *ngIf="isLoading">
+    <div class="auth-card glass-card text-center">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem;">⏳</div>
+        <h3>Loading College Details...</h3>
+        <p class="text-muted">Fetching institution profile data</p>
+    </div>
+</div>
+
+<!-- College Detail -->
+<div class="animate-fade-in" *ngIf="!isLoading && college">
+    <button class="btn btn-secondary back-btn" routerLink="/list">
+        <span>←</span> Back to Institutions
+    </button>
+
+    <div class="college-detail-container animate-fade-in">
+        <!-- Hero Header -->
+        <div class="detail-header">
+            <div class="content">
+                <span class="college-badge" [class.govt]="college.type === 'Government'">{{ college.type }}</span>
+                <h2>{{ college.name }}</h2>
+
+                <div class="detail-essentials mt-4">
+                    <div class="essential-item" *ngIf="college.code">
+                        <span class="icon">🔢</span>
+                        <span class="label">Official Code</span>
+                        <span class="value">{{ college.code }}</span>
+                    </div>
+                    <div class="essential-item">
+                        <span class="icon">📍</span>
+                        <span class="label">Location</span>
+                        <span class="value">{{ college.location }}</span>
+                        <a *ngIf="college.location_url" [href]="college.location_url" target="_blank"
+                            class="link-btn">Open in Google Maps</a>
+                    </div>
+                    <div class="essential-item" *ngIf="college.website">
+                        <span class="icon">🌐</span>
+                        <span class="label">Website</span>
+                        <a [href]="college.website" target="_blank" class="value link">{{ college.website }}</a>
+                    </div>
+                    <div class="essential-item">
+                        <span class="icon">🏛️</span>
+                        <span class="label">Affiliation</span>
+                        <span class="value">{{ college.affiliated_to }}</span>
+                    </div>
+                    <div class="essential-item" *ngIf="college.zone">
+                        <span class="icon">🗺️</span>
+                        <span class="label">Zone</span>
+                        <span class="value">Zone {{ college.zone }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map + Stats Grid -->
+        <div class="profile-grid">
+
+            <!-- Left Column: Map -->
+            <div class="profile-map-section glass-card">
+                <h3>📍 College Location</h3>
+                <div class="profile-map-wrapper">
+                    <iframe *ngIf="safeMapUrl" [src]="safeMapUrl" width="100%" height="100%"
+                        style="border:0; border-radius: 16px;" allowfullscreen loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                    <div *ngIf="!college.latitude || !college.longitude"
+                        style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);">
+                        📍 Map coordinates not available
+                    </div>
+                </div>
+                <div class="map-actions">
+                    <a *ngIf="college.location_url" [href]="college.location_url" target="_blank"
+                        class="btn btn-secondary">
+                        📍 Open in Google Maps
+                    </a>
+                    <a [routerLink]="['/map']" [queryParams]="{id: college._id}" class="btn btn-secondary">
+                        🗺️ View on Local Map
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Column: Stats -->
+            <div class="profile-stats-section">
+                <!-- Fee Structure -->
+                <div class="glass-card">
+                    <h3>💰 Fee Structure</h3>
+                    <div class="detail-stats">
+                        <div class="detail-stat-card">
+                            <p class="text-muted">B.Tech / B.E</p>
+                            <h4>₹{{ college.fees_btech / 1000 | number }}k</h4>
+                            <small>per annum</small>
+                        </div>
+                        <div class="detail-stat-card">
+                            <p class="text-muted">M.Tech / M.E</p>
+                            <h4>₹{{ college.fees_mtech / 1000 | number }}k</h4>
+                            <small>per annum</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placement Overview -->
+                <div class="glass-card">
+                    <h3>📈 Placement Overview</h3>
+                    <div class="detail-stats">
+                        <div class="detail-stat-card"
+                            style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
+                            <p class="text-muted">Average Package</p>
+                            <h4 style="color: var(--success);">₹{{ college.avg_package / 100000 | number:'1.1-1' }}L
+                            </h4>
+                            <small>CTC</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Info Card -->
+                <div class="glass-card">
+                    <h3>ℹ️ Quick Info</h3>
+                    <div class="quick-info-list">
+                        <div class="quick-info-item">
+                            <span class="qi-label">Type</span>
+                            <span class="qi-value">{{ college.type }}</span>
+                        </div>
+                        <div class="quick-info-item">
+                            <span class="qi-label">Affiliated To</span>
+                            <span class="qi-value">{{ college.affiliated_to }}</span>
+                        </div>
+                        <div class="quick-info-item" *ngIf="college.code">
+                            <span class="qi-label">College Code</span>
+                            <span class="qi-value">{{ college.code }}</span>
+                        </div>
+                        <div class="quick-info-item" *ngIf="college.zone">
+                            <span class="qi-label">Zone</span>
+                            <span class="qi-value">Zone {{ college.zone }}</span>
+                        </div>
+                        <div class="quick-info-item" *ngIf="college.latitude">
+                            <span class="qi-label">Coordinates</span>
+                            <span class="qi-value">{{ college.latitude | number:'1.4-4' }}°N, {{ college.longitude |
+                                number:'1.4-4' }}°E</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Actions -->
+        <div class="mt-4 flex-between">
+            <button class="btn btn-secondary" routerLink="/list">← Back to Institutions</button>
+            <button class="btn btn-primary" (click)="printProfile()">🖨️ Download Profile</button>
+        </div>
+    </div>
+</div>
+
+<!-- Access Restricted / Error -->
+<div class="auth-container animate-fade-in" *ngIf="!isLoading && !college && error">
+    <div class="auth-card glass-card text-center">
+        <div style="font-size: 3rem; margin-bottom: 1.5rem;">🔒</div>
+        <h2>Access Restricted</h2>
+        <p class="text-muted">{{ error }}</p>
+
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+            <button class="btn btn-primary" routerLink="/login">Login to View</button>
+            <button class="btn btn-secondary" routerLink="/register">Create Account</button>
+        </div>
+    </div>
+</div>

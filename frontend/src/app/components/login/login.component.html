@@ -1,0 +1,71 @@
+<div class="auth-container animate-fade-in">
+    <div class="auth-card">
+        <!-- Step 1: Login Form -->
+        <div *ngIf="!showOtpForm">
+            <div class="auth-header">
+                <h2>Welcome Back</h2>
+                <p class="text-muted">Enter your credentials to access the locator</p>
+            </div>
+
+            <form (submit)="onSubmit($event)">
+                <div class="form-group">
+                    <label>Email ID</label>
+                    <input type="email" name="email" [(ngModel)]="email" placeholder="Email ID" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
+                </div>
+
+                <div *ngIf="errorMessage" class="auth-message error">
+                    ⚠️ {{ errorMessage }}
+                </div>
+
+                <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+                    {{ isLoading ? 'Verifying...' : 'Sign In to Platform' }}
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Register New User <a routerLink="/register">Apply for access</a></p>
+            </div>
+        </div>
+
+        <!-- Step 2: OTP Verification -->
+        <div *ngIf="showOtpForm">
+            <div class="auth-header">
+                <h2>🔐 Verify Login</h2>
+                <p class="text-muted">Enter the OTP sent to <strong>{{ email }}</strong></p>
+            </div>
+
+            <div *ngIf="message" class="auth-message success">
+                ✅ {{ message }}
+            </div>
+
+            <form (submit)="onVerifyOtp($event)">
+                <div class="form-group">
+                    <label>Enter OTP</label>
+                    <input type="text" name="otp" [(ngModel)]="otp" placeholder="• • • • • •" maxlength="6" required>
+                </div>
+
+                <div *ngIf="errorMessage" class="auth-message error">
+                    ⚠️ {{ errorMessage }}
+                </div>
+
+                <button type="submit" class="btn btn-primary" [disabled]="isLoading || otp.length < 6">
+                    {{ isLoading ? 'Verifying...' : 'Verify & Sign In' }}
+                </button>
+            </form>
+
+            <div class="auth-resend">
+                <button (click)="onResendOtp()" class="resend-btn" [disabled]="resendCooldown > 0 || isLoading">
+                    {{ resendCooldown > 0 ? 'Resend OTP in ' + resendCooldown + 's' : 'Resend OTP' }}
+                </button>
+            </div>
+
+            <div class="auth-footer">
+                <p>Wrong account? <a routerLink="/login" (click)="showOtpForm = false">Go back</a></p>
+            </div>
+        </div>
+    </div>
+</div>
