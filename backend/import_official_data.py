@@ -1,6 +1,7 @@
 import asyncio
 import json
 import random
+import re
 from database import db
 from models import CollegeCreate
 
@@ -105,27 +106,32 @@ async def import_colleges():
             else:
                 # Try to extract city from college name
                 found_city = None
-                for city in CITY_COORDS:
-                    if city.lower() in name.lower():
+                # Sort cities by length descending to match "Tiruchirappalli" before "Trichy"
+                sorted_cities = sorted(CITY_COORDS.keys(), key=len, reverse=True)
+                
+                # Check for explicit city mentions in the name
+                for city in sorted_cities:
+                    if re.search(r'\b' + re.escape(city) + r'\b', name, re.IGNORECASE):
                         found_city = city
                         break
-
+                
+                if not found_city:
+                    # Fallback to suffix detection or sheet name
+                    if "," in name:
+                        candidate = name.split(",")[-1].strip()
+                        for city in sorted_cities:
+                            if city.lower() in candidate.lower():
+                                found_city = city
+                                break
+                
                 if found_city:
                     location_name = found_city
                     base_lat, base_lon = CITY_COORDS[found_city]
-                    lat = base_lat + random.uniform(-0.1, 0.1)
-                    lon = base_lon + random.uniform(-0.1, 0.1)
-                elif "," in name:
-                    # Use text after last comma only if it looks like a city
-                    candidate = name.split(",")[-1].strip()
-                    # Check if the candidate matches a known city
-                    for city in CITY_COORDS:
-                        if city.lower() in candidate.lower():
-                            location_name = city
-                            base_lat, base_lon = CITY_COORDS[city]
-                            lat = base_lat + random.uniform(-0.1, 0.1)
-                            lon = base_lon + random.uniform(-0.1, 0.1)
-                            break
+                    lat = base_lat + random.uniform(-0.05, 0.05)
+                    lon = base_lon + random.uniform(-0.05, 0.05)
+                else:
+                    # If no city found, use the sheet location but don't let it be the name
+                    location_name = SHEET_LOCATIONS.get(sheet_name, "Tamil Nadu")
 
             college = {
                 "name": name,

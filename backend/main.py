@@ -48,8 +48,11 @@ async def register(user: UserCreate):
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
 
+    if len(user.password.encode('utf-8')) > 72:
+        raise HTTPException(status_code=400, detail="Password must not exceed 72 bytes")
+
     hashed_password = get_password_hash(user.password)
-    user_dict = user.dict()
+    user_dict = user.model_dump()
     user_dict["hashed_password"] = hashed_password
     user_dict["is_verified"] = False
     del user_dict["password"]
@@ -133,7 +136,7 @@ async def resend_otp(data: ResendOTP):
 @app.post("/login-request")
 async def login_request(data: LoginRequest):
     user = await db["users"].find_one({"email": data.email})
-    if not user or not verify_password(data.password, user["hashed_password"]):
+    if not user or len(data.password.encode('utf-8')) > 72 or not verify_password(data.password, user["hashed_password"]):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password"
